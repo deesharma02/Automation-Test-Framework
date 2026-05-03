@@ -3,33 +3,34 @@ package tests;
 import Pages.HomePage;
 import static constants.Browser.*;
 
+import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
-import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.Test;
+import org.testng.annotations.*;
 import pojo.User;
+import utilities.BrowserUtility;
+import utilities.LoggerUtilities;
 
+@Listeners({listeners.TestListeners.class})
+public class LoginTest extends BaseTest {
 
-public class LoginTest {
-
-    HomePage homePage;
-
-    @BeforeMethod(description = "Setting up the page")
-    public void setUp(){
-        homePage = new HomePage(CHROME);
-    }
+//    @Test(description = "Verify Login with valid credential" , dataProviderClass =
+//            dataProviders.LoginDataProvider.class , dataProvider = "LoginTestDataProvider" , retryAnalyzer = listeners.MyRetryAnalyzer.class)
+//    public void VerifyLoginTestJSON(User user) {
+//        String userName =
+//                homePage.ClickOnSignIn().doLoginWithCredentials(user.getEmail() , user.getPassword()).visibleText();
+//        Assert.assertEquals(userName , "John Doe");
+//    }
 
     @Test(description = "Verify Login with valid credential" , dataProviderClass =
-            dataProviders.LoginDataProvider.class , dataProvider = "LoginTestDataProvider")
-    public void VerifyLoginTest(User user) {
+            dataProviders.LoginDataProvider.class , dataProvider = "LoginCsvTestDataProvider" , retryAnalyzer = listeners.MyRetryAnalyzer.class)
+    public void VerifyLoginTestCSV(User user) {
         String userName =
                 homePage.ClickOnSignIn().doLoginWithCredentials(user.getEmail() , user.getPassword()).visibleText();
         Assert.assertEquals(userName , "John Doe");
     }
+//
 
-    @AfterTest
-    public void tearDown(){
 
-    }
+
 
 }

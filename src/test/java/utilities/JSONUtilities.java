@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 public class JSONUtilities {
-    public static String readJson(Environments env){
+    public static Environment readJson(Environments env){
         Gson gson = new Gson();
         File jsonfile = new File(System.getProperty("user.dir") + "\\config\\config.json");
         FileReader fileReader = null;
@@ -21,7 +21,6 @@ public class JSONUtilities {
         }
         assert fileReader != null;
         Config config = gson.fromJson(fileReader , Config.class);
-        Environment environment = config.getEnvironment().get(env);
-        return environment.getUrl();
+        return config.getEnvironment().get("QA");
     }
 }

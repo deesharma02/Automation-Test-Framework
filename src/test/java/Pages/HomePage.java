@@ -5,16 +5,19 @@ import static constants.Environments.*;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import utilities.BrowserUtility;
-import utilities.PropertiesUtil;
-
-import java.io.IOException;
-import java.net.URL;
+import utilities.JSONUtilities;
 
 public final class HomePage extends BrowserUtility {
 
-    public HomePage(Browser driver){
+    public HomePage(Browser driver, boolean isHeadless){
+        super(driver ,isHeadless);
+        gotoWebsite(JSONUtilities.readJson(QA).getUrl());
+        maximizaBrowser();
+    }
+
+    public HomePage(WebDriver driver){
         super(driver);
-        gotoWebsite(PropertiesUtil.readProperty(QA , "URL"));
+        gotoWebsite(JSONUtilities.readJson(QA).getUrl());
         maximizaBrowser();
     }
 

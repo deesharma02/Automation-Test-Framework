@@ -6,6 +6,7 @@ import pojo.Config;
 import pojo.Environment;
 import pojo.TestData;
 import pojo.User;
+import utilities.CsvReaderUtility;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -35,5 +36,10 @@ public class LoginDataProvider {
         }
 
         return dataToReturn.iterator();
+    }
+
+    @DataProvider(name = "LoginCsvTestDataProvider")
+    public Iterator<User> loginCsvDataProvider(){
+        return CsvReaderUtility.readCSVFile("loginData");
     }
 }
