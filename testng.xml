@@ -6,6 +6,9 @@
         <parameter name="isLambdaTest" value="${isLambdaTest}"/>
         <classes>
             <class name="tests.LoginTest"/>
+            <class name="tests.ProductSearchTest"/>
+            <class name="tests.PurchaseProductE2E"/>
+            <class name="tests.AddAddressTest"/>
         </classes>
     </test>
 </suite>
