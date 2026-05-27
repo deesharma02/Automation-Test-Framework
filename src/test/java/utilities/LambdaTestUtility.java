@@ -16,11 +16,11 @@ public class LambdaTestUtility {
     private static ThreadLocal<DesiredCapabilities> capabilitiesThreadLocal = new ThreadLocal<>();
 
     public static WebDriver intializaLambdaTest(String browser , String testName){
-        String lambdaTestUser = System.getenv("LT_USERNAME");
-        String lambdaTestAccessKey = System.getenv("LT_ACCESS_KEY");
+        String lambdaTestUser = getConfigValue("LT_USERNAME", "lt.username");
+        String lambdaTestAccessKey = getConfigValue("LT_ACCESS_KEY", "lt.accessKey");
 
         if (lambdaTestUser == null || lambdaTestUser.isBlank() || lambdaTestAccessKey == null || lambdaTestAccessKey.isBlank()) {
-            throw new IllegalStateException("LT_USERNAME and LT_ACCESS_KEY environment variables are required for LambdaTest execution.");
+            throw new IllegalStateException("LambdaTest execution requires LT_USERNAME and LT_ACCESS_KEY environment variables, or -Dlt.username and -Dlt.accessKey Maven properties.");
         }
 
         DesiredCapabilities capabilities = new DesiredCapabilities();
@@ -53,6 +53,14 @@ public class LambdaTestUtility {
             driver.quit();
             driverThreadLocal.remove(); // VERY IMPORTANT
         }
+    }
+
+    private static String getConfigValue(String environmentVariable, String systemProperty) {
+        String value = System.getenv(environmentVariable);
+        if (value == null || value.isBlank()) {
+            value = System.getProperty(systemProperty);
+        }
+        return value;
     }
 
 

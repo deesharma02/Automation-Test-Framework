@@ -9,8 +9,8 @@ import pojo.User;
 import utilities.CsvReaderUtility;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -21,15 +21,21 @@ public class LoginDataProvider {
     @DataProvider(name = "LoginTestDataProvider")
     public Iterator<Object[]> loginDataProvider(){
         Gson gson = new Gson();
-        File testDataFile = new File(System.getProperty("user.dir") + "\\testData\\logindata.json");
-        FileReader fileReader = null;
-        try {
-            fileReader = new FileReader(testDataFile);
-        }catch (FileNotFoundException e){
-            e.printStackTrace();
+        File testDataFile = new File(System.getProperty("user.dir")
+                + File.separator + "testData"
+                + File.separator + "logindata.json");
+
+        TestData testData;
+        try (FileReader fileReader = new FileReader(testDataFile)) {
+            testData = gson.fromJson(fileReader , TestData.class);
+        } catch (IOException e) {
+            throw new RuntimeException("Unable to read login test data from " + testDataFile.getAbsolutePath(), e);
         }
-        assert fileReader != null;
-        TestData testData = gson.fromJson(fileReader , TestData.class);
+
+        if (testData == null || testData.getData() == null) {
+            throw new IllegalStateException("Login test data is empty or invalid: " + testDataFile.getAbsolutePath());
+        }
+
         List<Object[]> dataToReturn = new ArrayList<>();
         for(User user : testData.getData()){
             dataToReturn.add(new Object[] {user});

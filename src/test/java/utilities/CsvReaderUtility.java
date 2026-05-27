@@ -5,7 +5,6 @@ import com.opencsv.exceptions.CsvException;
 import pojo.User;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,20 +17,12 @@ public class CsvReaderUtility {
                 + File.separator + "testData"
                 + File.separator + "loginData.csv";
         File csvfile = new File(path);
-        FileReader fileReader = null;
         String[] data;
-        List<User> userList;
+        List<User> userList = new ArrayList<>();
         User user;
-        try {
-            fileReader = new FileReader(csvfile);
-        }catch (FileNotFoundException e){
-            e.printStackTrace();
-        }
-        assert fileReader != null;
-        CSVReader csvReader = new CSVReader(fileReader);
-        try {
+
+        try (CSVReader csvReader = new CSVReader(new FileReader(csvfile))) {
             csvReader.readNext();
-            userList = new ArrayList<>();
             while ((data = csvReader.readNext())!=null){
                 user = new User(data[0] , data[1]);
                 userList.add(user);
@@ -40,7 +31,7 @@ public class CsvReaderUtility {
 //                System.out.println(userData);
 //            }
         } catch (IOException | CsvException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Unable to read CSV test data from " + csvfile.getAbsolutePath(), e);
         }
 
         return userList.iterator();
