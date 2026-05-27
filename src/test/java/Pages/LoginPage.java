@@ -14,6 +14,8 @@ public final class LoginPage extends BrowserUtility {
     private static final By PASSWORD_TEXTBOX_LOCATOR =By.id("passwd");
     private static final By SIGN_IN_BUTTON_LOCATOR =By.id("SubmitLogin");
     private static final By ERROR_MESSAGE_LOCATOR = By.xpath("//div[contains(@class,'alert alert-danger')]/ol/li");
+    private static final By NEW_EMAIL_TEXTBOX_LOCATOR = By.id("email_create");
+    private static final By CREATE_ACCOUNT_BUTTON_LOCATOR = By.id("SubmitCreate");
 
     public MyAccountPage doLoginWithCredentials(String email ,String pswd){
         enterText(EMAIL_TEXTBOX_LOCATOR , email);
@@ -32,6 +34,14 @@ public final class LoginPage extends BrowserUtility {
     public String getErrorText(){
         return BrowserUtility.getText(ERROR_MESSAGE_LOCATOR);
     }
+
+    public AccountRegisterPage enterNewUserEmail(String email){
+        enterText(NEW_EMAIL_TEXTBOX_LOCATOR,email);
+        clickOn(CREATE_ACCOUNT_BUTTON_LOCATOR);
+        return new AccountRegisterPage(getDriver());
+    }
+
+
 
 
 

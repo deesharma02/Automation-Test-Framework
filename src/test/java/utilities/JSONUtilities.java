@@ -11,9 +11,7 @@ import java.io.FileReader;
 
 public class JSONUtilities {
     public static Environment readJson(Environments env){
-        String path = System.getProperty("user.dir")
-                + File.separator + "config"
-                + File.separator + "config.json";
+        String path = System.getProperty("user.dir")+"//config//config.json";
         Gson gson = new Gson();
         File jsonfile = new File(path);
         FileReader fileReader = null;
